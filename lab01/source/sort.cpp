@@ -1,10 +1,21 @@
+/*
+    LAB 01 - Classificação e Pesquisa de Dados
+    Autores: Wellington Espindula e Rafael Trevisan
+    Prof. Dr.: João Comba
+
+
+ */
+
+
 #ifndef LIBS
 
 #define LIBS
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 #include <iostream>
+#include <stack>
 
 #endif
 
@@ -12,13 +23,17 @@
 #include "../header/sort.h"
 
 
-void shell_insertion_sort(int input[], int size, bool verbose){
-    int changes;
+void shell_insertion_sort(int input[], int size, bool verbose, bool count_time){
+    clock_t begin, end;
+    if (count_time){
+        begin = clock();
+    }
     
+    int changes;
     int h = size/2;
 
     if (verbose){
-        showArray(input, size);
+        show_list(input, size);
     }
 
     while (h >= 1) {                                        // Reduce gap size
@@ -36,70 +51,67 @@ void shell_insertion_sort(int input[], int size, bool verbose){
         
         if (verbose){
             printf("After increments of size %d the list is ", h);
-            showArray(input, size);
+            show_list(input, size);
         }
         
         h /= 2;
     }
+
+    if (count_time){
+        end = clock();
+        double delta_t = (double(end - begin)) / CLOCKS_PER_SEC;
+        printf("Time elapsed: %f\n", delta_t);
+    }        
 }
 
-
-int[] find_ciura_sequence(int size){
-    int ciura_sequence[8] = {1, 4, 10, 23, 57, 132, 301, 701};    
+std::stack<int> find_ciura_sequence(int size){
+    int ciura_sequence[8] = {1, 4, 10, 23, 57, 132, 301, 701};
+    std::stack<int> final_sequence;
     
     // find the maximum h of the sequence given the list size
     // init vars
     int i = 0;
-    int h_max = ciura_sequence[i];
-    int aux = size/h_max;
-    while (aux >= 1){
-        i++;
+    int h = ciura_sequence[i];
+    while ((size/h) > 1){
         if (i < 8){
-            h_max = ciura_sequence[i];
-            aux = size/h_max;
+            h = ciura_sequence[i];
         } else {
-            h_max *= 2.25;
-            aux = size/h_max;
+            h *= 2.25;
         }
+        i++;
+        // printf("[i = %d] [h = %d]\n", i, h);
+        final_sequence.push(h);
     }
 
-    // create the ciura sequence using the maximum value
-    int ciura_sequence_local[i];
-    int j = i;
-    i = 0;
-    h_max = 0;
-    while (j > 0){
-        if (i < 8){
-            h_max = ciura_sequence[i];
-        } else {
-            h_max *= 2.25;
-        }
-        ciura_sequence_local[j] = h_max;
-        i++;
-        j--;
-    }
-
-    return ciura_sequence_local;
+    return final_sequence;
 }
 
-/* void ciura_sequence_shell_sort(int input[], int size, bool verbose){
 
-
-
-    int changes;
-
-    if (verbose)
-    {
-        showArray(input, size);
+void ciura_sequence_shell_sort(int input[], int size, bool verbose, bool count_time){
+    clock_t begin, end;
+    if (count_time){
+        begin = clock();
     }
 
-    while (gap >= 0) // reduz tamanho h
-    { 
-        for (int i = h; i < size; i++) { // ordena segmentos
+    // Find gap values from Ciura's sequence for this array size
+    std::stack<int> ciura_sequence = find_ciura_sequence(size);
+    
+    int changes;
+    int h;
+
+    if (verbose){
+        show_list(input, size);
+    }
+
+    while (!ciura_sequence.empty()) {
+        h = ciura_sequence.top();                           // gets the actual gap
+        ciura_sequence.pop();                               // removes it from stack
+
+        for (int i = h; i < size; i++) {
+
             int chave = input[i];
             int j = i - h;
-            while ((j >= 0) && (input[j] > chave))
-            {
+            while ((j >= 0) && (input[j] > chave)) {
                 input[j + h] = input[j];
                 j -= h;
                 changes++;
@@ -109,9 +121,14 @@ int[] find_ciura_sequence(int size){
         
         if (verbose){
             printf("After increments of size %d the list is ", h);
-            showArray(input, size);
+            show_list(input, size);
         }
         
-        h /= 2;
     }
-} */
+    
+    if (count_time){
+        end = clock();
+        double delta_t = (double(end - begin)) / CLOCKS_PER_SEC;
+        printf("Time elapsed: %f\n", delta_t);
+    }
+}

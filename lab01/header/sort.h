@@ -1,19 +1,21 @@
 /** \brief Shell sort default implementation
- * \param input - 
- * \param size - size of vector
- * \param verbose - 
+ *
+ * \param input - Input list
+ * \param size - size of the list
+ * \param verbose - show iterations
+ * \param count_time - count execution time and show
  */
-void shell_insertion_sort(int input[], int size, bool verbose);
+void shell_insertion_sort(int input[], int size, bool verbose, bool count_time);
 
 /**
  * \brief Shell sort optimized using Ciura's Sequence. 
- * \description Ciura's sequence was created by Marcin Ciura in
+ * 
+ *  Ciura's sequence was created by Marcin Ciura in
  *  Best Increments for the Average Case of Shellsort paper.
  * 
- * \param
- * \param
- * \param
+ * \param input - Input list
+ * \param size - size of the list
+ * \param verbose - show iterations
+ * \param count_time - count execution time and show
  */
-void ciura_sequence_shell_sort(int input[], int size, bool verbose);
-
-int[] find_ciura_sequence(int size);
+void ciura_sequence_shell_sort(int input[], int size, bool verbose, bool count_time);
