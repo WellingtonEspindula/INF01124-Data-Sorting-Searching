@@ -3,7 +3,12 @@
     Autores: Wellington Espindula e Rafael Trevisan
     Prof. Dr.: João Comba
 
-
+    No presente trabalho de laboratório de Classificação e Pesquisa de Dados, 
+    objetivou-se a implementação do algoritmos de ordenação Shell Sort usando 
+    o tamanho de pulos como:
+    (i) a implementação original (Shell, 1959)
+    (ii) a sequência proposta por Ciura em 2001
+    
  */
 
 
