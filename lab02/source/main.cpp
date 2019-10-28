@@ -56,13 +56,15 @@ int main(int argc, char ** argv){
         QuickSortStats v_rand_stats;
         
         quick_sort(&v_med, MEDIAN, &v_med_stats);
-        quick_sort(&v_rand, MEDIAN, &v_rand_stats);
+        quick_sort(&v_rand, RANDOM, &v_rand_stats);
 
         ordered_med_lists.push_back(v_med);
         med_stats_list.push_back(v_med_stats);
 
         ordered_rand_lists.push_back(v_rand);
         rand_stats_list.push_back(v_rand_stats);
+
+        printf("Terminou o %dº;\n", (i+1));
 
     }
 
