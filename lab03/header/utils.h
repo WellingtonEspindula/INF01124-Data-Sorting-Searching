@@ -1,0 +1,23 @@
+
+/** \brief Given some array, create a list using random values
+ * 
+ * \param input - Input list
+ * \param size - size of the list
+ */
+void random_list(int list[], int size);
+
+/** \brief Show list elements
+ * 
+ * \param input - Input list
+ * \param size - size of the list
+ */
+void show_list(int list[], int size);
+
+/** \brief Measures time of sort function
+ *
+ * \param *f_sort - Sort function that will be used 
+ * \param input - Input list
+ * \param N - size of the list
+ * \param name - Function name
+*/
+int benchmark(void(*f_sort)(int[] , int ), int input[], int N , char* name);
