@@ -26,6 +26,8 @@
 #include "../header/utils.h"
 #endif
 
+using namespace std;
+
 
 void random_list(int list[], int size){
     for (int i = 0; i < size; i++){
@@ -35,11 +37,18 @@ void random_list(int list[], int size){
 
 void show_list(int list[], int size){
     printf("[");
-    for (int i = 0; i < (size - 1); i++)
-    {
+    for (int i = 0; i < (size - 1); i++){
         printf("%d, ", list[i]);
     }
     printf("%d]\n", list[size - 1]);
+}
+
+void show_list(string list[], int size){
+    printf("[");
+    for (int i = 0; i < (size - 1); i++){
+        cout << list[i] << ", ";
+    }
+    cout << list[size - 1] << "]\n";
 }
 
 int is_sorted(int C[], int tam) {

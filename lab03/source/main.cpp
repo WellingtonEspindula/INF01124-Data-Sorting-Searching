@@ -40,7 +40,18 @@ int main(int argc, char ** argv){
     // Init rand
     srand(time(0));
     
-    // Get arguments from input
+    int tam = 17;
+    string entries[tam] = {"PROJECT", "GUTENBERG", "S", "FRANKENSTEIN", "BY", "MARY", "WOLLSTONECRAFT", "GODWIN", "SHELLEY", "THIS", "EBOOK", "IS", "FOR", "THE", "USE", "OF", "ANYONE"};
+    // string entries[tam] = {"ARM","BABY","AIRFORCE","BATHROOM","ALBUM","AIRPORT","BARBECUE","BANK","APPLE","BACKPACK","ALPHABET","ARMY","BANANA","AIRCRAFT CARRIER","BABY","BALLOON"};
+
+    printf("1.");
+    show_list(entries, tam);
+    
+    radix_sort(entries, tam);
+
+    show_list(entries, tam);
+
+/*     // Get arguments from input
     if (argc < 3){
         printf("Missing parameters\n");
         return EXIT_FAILURE;
@@ -133,7 +144,7 @@ int main(int argc, char ** argv){
                 printf("A problem ocurred in sort type selction\n");
                 break;
         }
-    }
+    } */
 
 
         // TEST LIMITS
@@ -191,6 +202,17 @@ vector<vector<int>> readFileToVectors(string fileName){
     }
     return vectors;
 } 
+
+/* vector<string> readFileToStringVector(string fileName){
+    vector<string> vectors = vector<string>();
+
+    ifstream file (fileName);
+    if (file.is_open()){
+        
+        file.close();
+    }
+    return vectors;
+}  */
 
 void writeList(string fileName, vector<vector<int>> list){
     ofstream file (fileName);

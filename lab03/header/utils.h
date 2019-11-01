@@ -1,3 +1,4 @@
+using namespace std;
 
 /** \brief Given some array, create a list using random values
  * 
@@ -12,6 +13,8 @@ void random_list(int list[], int size);
  * \param size - size of the list
  */
 void show_list(int list[], int size);
+
+void show_list(string list[], int size);
 
 /** \brief Measures time of sort function
  *

@@ -1,0 +1,5 @@
+[swaps: 690; recursive calls: 254; execution time: 0 s]
+[swaps: 1682; recursive calls: 476; execution time: 0 s]
+[swaps: 2260; recursive calls: 706; execution time: 0 s]
+[swaps: 14964; recursive calls: 3000; execution time: 0 s]
+[swaps: 63312; recursive calls: 6874; execution time: 0 s]

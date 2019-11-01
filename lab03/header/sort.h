@@ -1,3 +1,5 @@
+using namespace std;
+
 /** TODO COMMENTS
  */
 extern int LEAF_SIZE;
@@ -32,3 +34,11 @@ void merge_sort(int vector[], int size);
  *  \param size - Size of the vector
  */
 void hybrid_sort(int vector[], int size);
+
+
+/** \brief 
+ *
+ *  \param vector - Input vector to be sorted
+ *  \param size - Size of the vector
+ */
+void radix_sort(string vector[], int size);
