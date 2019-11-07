@@ -24,3 +24,16 @@ void show_list(string list[], int size);
  * \param name - Function name
 */
 int benchmark(void(*f_sort)(int[] , int ), int input[], int N , char* name);
+
+/** \brief Measures time of sort function
+ *
+ * \param *f_sort - Sort function that will be used 
+ * \param input - Input list
+ * \param N - size of the list
+ * \param name - Function name
+*/
+double benchmark(void(*f_sort)(string[] , int ), string input[], int N , char* name);
+
+void show_list(string list[], int size);
+
+void show_list(string list[], int l, int h);

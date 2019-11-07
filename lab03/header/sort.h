@@ -35,7 +35,7 @@ void merge_sort(int vector[], int size);
  */
 void hybrid_sort(int vector[], int size);
 
-
+// extern int VECTOR_SIZE;
 /** \brief 
  *
  *  \param vector - Input vector to be sorted

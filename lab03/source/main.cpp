@@ -17,6 +17,7 @@
 #include <fstream>
 #include <stack>
 #include <vector>
+#include <map> 
 #endif
 
 #ifndef UTILS
@@ -33,25 +34,18 @@ using namespace std;
 
 // prototypes
 vector<vector<int>> readFileToVectors(string fileName);
+vector<string> readFileToStringVector(string fileName);
 void writeList(string fileName, vector<vector<int>> list);
+void writeList(string fileName, vector<string> list);
+void writeStats(string fileName, vector<string> strings, double time);
 
 
 int main(int argc, char ** argv){
     // Init rand
     srand(time(0));
-    
-    int tam = 17;
-    string entries[tam] = {"PROJECT", "GUTENBERG", "S", "FRANKENSTEIN", "BY", "MARY", "WOLLSTONECRAFT", "GODWIN", "SHELLEY", "THIS", "EBOOK", "IS", "FOR", "THE", "USE", "OF", "ANYONE"};
-    // string entries[tam] = {"ARM","BABY","AIRFORCE","BATHROOM","ALBUM","AIRPORT","BARBECUE","BANK","APPLE","BACKPACK","ALPHABET","ARMY","BANANA","AIRCRAFT CARRIER","BABY","BALLOON"};
 
-    printf("1.");
-    show_list(entries, tam);
-    
-    radix_sort(entries, tam);
 
-    show_list(entries, tam);
-
-/*     // Get arguments from input
+    // Get arguments from input
     if (argc < 3){
         printf("Missing parameters\n");
         return EXIT_FAILURE;
@@ -65,86 +59,135 @@ int main(int argc, char ** argv){
     // it will be used only if entry is from a file
     vector<vector<int>> lists = vector<vector<int>>();
 
+    int program_number = 0;
+
     // verifies if has a flag
     if (argv[1][0] == '-'){
-        string flag = argv[1];
 
-        // verifies the flag f that means it will sort a file
-        isFileSort = (flag.find("f") != string::npos);
-        
-        // Verifies if has the sort_type flags 
-        if (flag.find("i") != string::npos){
-            sort_type = INSERTION;
-        } else if (flag.find("m") != string::npos){
-            sort_type = MERGE;
-        } else if (flag.find("h") != string::npos){
-            sort_type = HYBRID;
+        // checks if the selected program is 1 or 2
+        program_number = argv[1][1] - '0';
+        if ((program_number != 1) && (program_number != 2)){
+            printf("Wrong parameters\n");
+            return EXIT_FAILURE;
+        }
+    } else {
+        printf("Missing parameters\n");
+        return EXIT_FAILURE;
+    }
+
+    if (program_number == 1){
+        // verifies if has a flag
+        if (argv[2][0] == '-'){
+            string flag = argv[2];
+
+            // verifies the flag f that means it will sort a file
+            isFileSort = (flag.find("f") != string::npos);
+            
+            // Verifies if has the sort_type flags 
+            if (flag.find("i") != string::npos){
+                sort_type = INSERTION;
+            } else if (flag.find("m") != string::npos){
+                sort_type = MERGE;
+            } else if (flag.find("h") != string::npos){
+                sort_type = HYBRID;
+            }
+
+            if (isFileSort){
+                lists = readFileToVectors(argv[3]);
+            } else {
+                sequence_length = atoi(argv[3]);
+            }
+            
+            // If has a flag and the sort_type is HYBRID, 
+            // the LEAF_SIZE has to be the 3º argument
+            if (sort_type == HYBRID){
+                if (argc < 5){
+                    printf("Missing parameters\n");
+                    return EXIT_FAILURE;
+                } else {
+                    LEAF_SIZE = atoi(argv[4]);
+                }
+            }
+
+        // If hasn't a flag, use default value for sort_type
+        } else {
+            sequence_length = atoi(argv[1]);
+            LEAF_SIZE = atoi(argv[2]);
         }
 
         if (isFileSort){
-            lists = readFileToVectors(argv[2]);
-        } else {
-            sequence_length = atoi(argv[2]);
-        }
-        
-        // If has a flag and the sort_type is HIBRID, 
-        // the LEAF_SIZE has to be the 3º argument
-        if (sort_type == HYBRID){
-            if (argc < 4){
-                printf("Missing parameters\n");
-                return EXIT_FAILURE;
-            } else {
-                LEAF_SIZE = atoi(argv[3]);
+            vector<vector<int>> ordered_lists = vector<vector<int>>();
+            for (int i = 0; i < lists.size(); i++){
+                vector<int> vector = lists.at(i);
+                switch (sort_type){
+                    case INSERTION:
+                        benchmark(insertion_sort, &vector[0], vector.size(), "InsertionSort");
+                        break;
+                    case MERGE:
+                        benchmark(merge_sort, &vector[0], vector.size(), "MergeSort");
+                        break;
+                    case HYBRID:
+                        benchmark(hybrid_sort, &vector[0], vector.size(), "HybridSort");
+                        break;
+                    default:
+                        printf("A problem ocurred in sort type selction\n");
+                        break;
+                }
+                ordered_lists.push_back(vector);
             }
-        }
+            writeList("saida.txt", ordered_lists);
 
-    // If hasn't a flag, use default value for sort_type
-    } else {
-        sequence_length = atoi(argv[1]);
-        LEAF_SIZE = atoi(argv[2]);
-    }
+        } else {
+            int vector[sequence_length];
+            random_list(vector, sequence_length);
 
-    if (isFileSort){
-        vector<vector<int>> ordered_lists = vector<vector<int>>();
-        for (int i = 0; i < lists.size(); i++){
-            vector<int> vector = lists.at(i);
             switch (sort_type){
                 case INSERTION:
-                    benchmark(insertion_sort, &vector[0], vector.size(), "InsertionSort");
+                    benchmark(insertion_sort, vector, sequence_length, "InsertionSort");
                     break;
                 case MERGE:
-                    benchmark(merge_sort, &vector[0], vector.size(), "MergeSort");
+                    benchmark(merge_sort, vector, sequence_length, "MergeSort");
                     break;
                 case HYBRID:
-                    benchmark(hybrid_sort, &vector[0], vector.size(), "HybridSort");
+                    benchmark(hybrid_sort, vector, sequence_length, "HybridSort");
                     break;
                 default:
                     printf("A problem ocurred in sort type selction\n");
                     break;
             }
-            ordered_lists.push_back(vector);
         }
-        writeList("saida.txt", ordered_lists);
+    } else if (program_number == 2){
+        if (argc < 3){
+            printf("Missing parameters\n");
+            return EXIT_FAILURE;
+        } else {
+            string filename = argv[2];
 
-    } else {
-        int vector[sequence_length];
-        random_list(vector, sequence_length);
+            // generate output name
+            int position_of_point = filename.find('.');
+            string outputname = filename.substr(0, filename.find('.'));
+            outputname.append("_ordered.txt");
+            string outputstats = filename.substr(0, filename.find('.'));
+            outputstats.append("_stats.txt");
 
-        switch (sort_type){
-            case INSERTION:
-                benchmark(insertion_sort, vector, sequence_length, "InsertionSort");
-                break;
-            case MERGE:
-                benchmark(merge_sort, vector, sequence_length, "MergeSort");
-                break;
-            case HYBRID:
-                benchmark(hybrid_sort, vector, sequence_length, "HybridSort");
-                break;
-            default:
-                printf("A problem ocurred in sort type selction\n");
-                break;
+            vector<string> strings = readFileToStringVector(filename);
+            
+/*             map<string, int> ocurrences = map<string, int>();
+            for (string element: strings){
+                if (ocurrences.find(element) == ocurrences.end()){
+                    ocurrences.insert({element, 0});
+                } else {
+                    ocurrences.({element, 0});
+                }
+            } */
+
+            double time = benchmark(radix_sort, &strings[0], strings.size(), "radix_sort");
+            if (time > 0){
+                writeList(outputname, strings);
+                writeStats(outputstats, strings, time);
+            }
         }
-    } */
+    }
 
 
         // TEST LIMITS
@@ -203,16 +246,22 @@ vector<vector<int>> readFileToVectors(string fileName){
     return vectors;
 } 
 
-/* vector<string> readFileToStringVector(string fileName){
-    vector<string> vectors = vector<string>();
+vector<string> readFileToStringVector(string fileName){
+    vector<string> string_vector = vector<string>();
 
     ifstream file (fileName);
     if (file.is_open()){
-        
+        string word;
+
+        while(!file.eof()) { 
+            getline(file, word, ' ');
+            string_vector.push_back(word);
+        }
+
         file.close();
     }
-    return vectors;
-}  */
+    return string_vector;
+} 
 
 void writeList(string fileName, vector<vector<int>> list){
     ofstream file (fileName);
@@ -228,5 +277,41 @@ void writeList(string fileName, vector<vector<int>> list){
         }      
         file.close();
     }
- 
+}
+
+void writeList(string fileName, vector<string> list){
+    ofstream file (fileName);
+    if (file.is_open())
+    {
+        for (int i = 0; i < (list.size() - 1); i++){
+            file << list.at(i) << " ";
+        }      
+        file << list.back() << "\n";
+        file.close();
+    }
+}
+
+void writeStats(string fileName, vector<string> strings, double time){
+    ofstream file (fileName);
+    if (file.is_open())
+    {
+        file << "Foram ordenadas " << strings.size() << " palavras em " << time << " segundos\n";
+        
+        string stringAtual = "";
+        int countStringAtual = 0;
+        for (string element : strings){
+            if (element != stringAtual){
+                if (!stringAtual.empty()){
+                    file << countStringAtual << "\n";
+                }
+                stringAtual = element;
+                file << "ocorrencias de " << stringAtual << ": ";
+                countStringAtual = 1;
+            } else {
+                countStringAtual++;
+            }
+        }
+        file << countStringAtual << "\n";
+        file.close();
+    }
 }

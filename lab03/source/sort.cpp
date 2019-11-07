@@ -27,8 +27,14 @@
 #include "../header/sort.h"
 #endif
 
-#define N_UPPERCASE_LETTERS 26
+#ifndef UTILS
+#define UTILS
+#include "../header/utils.h"
+#endif
+
+#define N_LETTERS 27
 #define ASCII_A_CODE 65
+#define MAX_ARRAY_SIZE 1000000
 
 using namespace std;
 
@@ -155,67 +161,56 @@ void hybrid_sort(int vector[], int size) {
     merge_sort(vector, aux, 0, size-1);
 }
 
-
-// return dth character of s, -1 if d = length of string
-int charAt(string s, int d) {
-    if ((d < 0) || (d >= s.length())){
-        return -1;
-    } else{
-        return (int) s.at(d);
+   
+int letters_to_int(string word, int d) {
+    if ((d < 0) || (d > word.length())){
+        printf("Letters to int exception: Digit out of the bound\n");
     }
+    if (d == word.length()) return -1;
+    return word.at(d) - (int) 'A';
 }
 
-// sort from a[lo] to a[hi], starting at the dth character
 void radix_sort(string vector[], int lo, int hi, int d, string aux[]) {
-    printf("3.\n");
 
-        // cutoff to insertion sort for small subarrays
-        if (hi <= lo + 1) {
-            // insertion_sort(a, lo, hi, d);
-            return;
-        }
+    // if gets in the last subarray, returns to previous recursion call
+    if (hi <= lo) {
+        return;
+    }
 
-
-    printf("lo = %d - hi = %d - d = %d \n", lo, hi, d);
-
-    // compute frequency counts
-    int count[N_UPPERCASE_LETTERS+2] = {0};
+    // calculate frequency count
+    int count[N_LETTERS+2] = {0};
     for (int i = lo; i <= hi; i++) {
-        int c = charAt(vector[i], d) - ASCII_A_CODE;
+        int c = letters_to_int(vector[i], d);
         count[c+2]++;
-        // printf(" %d ", count[c+2]);
     }
 
-    // transform counts to indicies
-    for (int r = 0; r < N_UPPERCASE_LETTERS+1; r++)
+    // summarise
+    for (int r = 0; r < N_LETTERS+1; r++){
         count[r+1] += count[r];
+    }
 
-    // distribute
+
     for (int i = lo; i <= hi; i++) {
-        // printf("\ni = %d - d = %d -", i, d);
-        int c = charAt(vector[i], d) - ASCII_A_CODE;
-        int pos_aux = count[c+1]++;
-        aux[pos_aux].assign(vector[i]);
-        // printf(" c = %d - count[c+1] = %d - ", c, pos_aux);
-        // cout << vector[i];
-        // cout << " - aux[count[c+1]++] = " << aux[pos_aux];
+        int c = letters_to_int(vector[i], d);
+        aux[count[c+1]++] = vector[i];
     }
 
-    // printf("4.");
-
-    // copy back
-    for (int i = lo; i <= hi; i++) 
+    // copy from auxiliar to main vector
+    for (int i = lo; i <= hi; i++){
         vector[i] = aux[i - lo];
-
-    // recursively sort for each character (excludes sentinel -1)
-    for (int r = 0; r < N_UPPERCASE_LETTERS; r++){
-        printf("r = %d\n", r);
-        radix_sort(vector, lo + count[r], ((lo + count[r+1]) - 1), (d+1), aux);
     }
+
+    // recursion to each caractere (digit)
+    for (int r = 0; r < N_LETTERS; r++)
+        radix_sort(vector, lo + count[r], lo + count[r+1] - 1, d+1, aux);
 }
 
+string aux[MAX_ARRAY_SIZE];
 void radix_sort(string vector[], int size) {
-    string aux[size];
-    printf("2.");
-    radix_sort(vector, 0, (size-1), 0, aux);
+    // string aux[size] = {""};
+    if (size > MAX_ARRAY_SIZE){
+        printf("Vector out of limit size");
+    } else {
+        radix_sort(vector, 0, size-1, 0, aux);
+    }
 }
