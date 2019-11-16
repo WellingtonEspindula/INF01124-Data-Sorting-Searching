@@ -1,12 +1,3 @@
-/*
-    LAB 03 - Classificação e Pesquisa de Dados
-    Autores: Wellington Espindula e Rafael Trevisan
-    Prof. Dr.: João Comba
-
-    No presente trabalho de laboratório de Classificação e Pesq
- */
-
-
 #ifndef LIBS
 
 #define LIBS

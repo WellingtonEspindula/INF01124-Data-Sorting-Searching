@@ -1,13 +1,3 @@
-/*
-    LAB 03 - Classificação e Pesquisa de Dados
-    Autores: Wellington Espindula e Rafael Trevisan
-    Prof. Dr.: João Comba
-
-
-
- */
-
-
 #ifndef LIBS
 
 #define LIBS
@@ -25,6 +15,11 @@
 #ifndef SORT
 #define SORT
 #include "../header/sort.h"
+#endif
+
+#ifndef HASH
+#define HASH
+#include "../header/hash.h"
 #endif
 
 #ifndef UTILS
