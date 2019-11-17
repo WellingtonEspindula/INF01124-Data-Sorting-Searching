@@ -1,14 +1,27 @@
 using namespace std;
 
+/**
+ * \brief Enum that identifies the hash function that will be used
+ * */
 enum HASH_FUNCTION_TYPE { HORNER, FIBONACCI };
+
+/**
+ * \brief Enum that identifies the threatment politics
+ * */
 enum HASH_COLLISION_TREATMENT { CHAINING, EABQ };
 
+/**
+ * \brief HashTable entry
+ * */
 typedef struct Entry {
-    string value;
+    string value;         // Entry value
     list<string> aux;     // In the chaining mode, we can have a list of strings
-    bool occupied = false;
+    bool occupied = false; // is occupied
 };
 
+/**
+ * \brief HashTable
+ * */
 typedef struct HashTable {
     int m;                  // Table size
     int n;                  // Elements count
@@ -18,16 +31,57 @@ typedef struct HashTable {
     Entry* entries;
 };
 
+/**
+ * \brief Create a new hash table
+ * \param m - HashTable's size
+ * \param function_type - Hash function that will be used on strings on the HashTable
+ * \param collision_tratment - HashTable's collision threatment policy
+ * \return Return the new HashTable
+ * */
 HashTable create(int m, HASH_FUNCTION_TYPE function_type, HASH_COLLISION_TREATMENT collision_tratment);
 
+/**
+ * \brief Insert an element into the HashTable
+ * \param table - HashTable memory address to be inserted the element
+ * \param element - The element (string) to be inserted
+ * \return Returns if the insertion was sucessfull
+ * */
 bool insert(HashTable* table, string element);
 
+/**
+ * \brief Search an element through the HashTable
+ * \param table - HashTable to be searched through
+ * \param element - The element (string) to be searched
+ * \return Returns the number of access neccesssary to find the element. 
+ * If it was not found, returns -1
+ * */
 int search(HashTable table, string element);
 
+/**
+ * \brief Remove an element from the HashTable
+ * \param table - HashTable memory address to remove the element
+ * \param element - The element (string) to be removed
+ * \return Returns if the deletation was sucessfull
+ * */
 bool remove(HashTable* table, string element);
 
+/**
+ * \brief Calculate the occupation rate on a HashTable 
+ * \param table - HashTable to be analyesed
+ * \return Returns a number between 0 and 1 that says how much occupied is the HashTable
+ * */
 float occupation_rate(HashTable table);
 
-int string_hash(string s);
+/**
+ * \brief Calculate the respective hash code to a string given its HashTable
+ * \param table - HashTable
+ * \param s - The string to be hashed
+ * \return Returns the hash code
+ * */
+int string_hash(HashTable table, string s);
 
+/**
+ * \brief Show a table and its properties
+ * \param table - HashTable to be showed
+ * */
 void show(HashTable table);

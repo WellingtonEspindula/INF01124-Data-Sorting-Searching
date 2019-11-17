@@ -1,12 +1,10 @@
 ############################# Makefile ##########################
 all: lab4
-lab4: hash.o sort.o utils.o main.o 
+lab4: hash.o utils.o main.o 
 		# O compilador faz a ligação entre os dois objetos
-		g++ -o lab4 Debug/hash.o Debug/sort.o Debug/utils.o Debug/main.o -g -O3 -std=c11
+		g++ -o lab4 Debug/hash.o Debug/utils.o Debug/main.o -g -O3 -std=c11
 utils.o: 
 		g++ -o Debug/utils.o -c source/utils.cpp -W -Wall -pedantic -g -O3 -std=c11
-sort.o: 
-		g++ -o Debug/sort.o -c source/sort.cpp -W -Wall -pedantic -g -O3 -std=c11
 hash.o: 
 		g++ -o Debug/hash.o -c source/hash.cpp -W -Wall -pedantic -g -O3 -std=c11
 main.o:
