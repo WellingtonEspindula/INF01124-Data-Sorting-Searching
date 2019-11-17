@@ -25,7 +25,7 @@
 
 #define P 127   // 127 is the minor prime number after 122 (max ascii code value).
 
-#define C1 1
+#define C1 1    // random consts
 #define C2 3
 
 
@@ -126,17 +126,13 @@ int search(HashTable table, string element){
 
     int access_num = 0;
 
+    // Firstly, we verify if the first value is on the hash table
+    access_num++;
     if (table.entries[hash_code].value.compare(element) == 0){
         return access_num;
     } else {
         // Chaining case
         if (table.collision_tratment == CHAINING){
-
-            // Firstly, we verify if the first value is on the hash table
-            access_num++;
-            if (table.entries[hash_code].value.compare(element) == 0){
-                return access_num;
-            }
 
             // Search throught the aux vector
             list<string> vector = table.entries[hash_code].aux;
@@ -170,7 +166,37 @@ int search(HashTable table, string element){
 }
 
 bool remove(HashTable* table, string element){
-    // TODO
+    int hash_code = string_hash(*table, element);
+
+    if (table->entries[hash_code].value.compare(element) == 0){
+        table->entries[hash_code].occupied = false;
+        return true;
+    } else {
+        // Chaining case
+        if (table->collision_tratment == CHAINING){
+
+            // Search throught the aux vector
+            list<string> vector = table->entries[hash_code].aux;
+            vector.remove(element);
+            return true;
+
+        } else if (table->collision_tratment == EABQ){
+            for (int i = 0; i < table->m; i++){
+                hash_code = (hash_code + (C1*i + C2*i*i)) % (table->m);
+                Entry entry = table->entries[hash_code];
+
+                if ((entry.occupied) && (entry.value.compare(element) == 0)){
+                    table->entries[hash_code].occupied = false;
+                    return true;
+                }
+            }
+
+            // if it has not found the element in the hashtable, return -1
+            return false;
+        } else {
+            return false;
+        }
+    }
 }
 
 float occupation_rate(HashTable table){
