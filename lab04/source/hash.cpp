@@ -9,6 +9,7 @@
 #include <stack>
 #include <vector>
 #include <iomanip>
+#include <list>
 #include <map> 
 #endif
 
@@ -138,7 +139,7 @@ int search(HashTable table, string element){
             }
 
             // Search throught the aux vector
-            vector<string> vector = table.entries[hash_code].aux;
+            list<string> vector = table.entries[hash_code].aux;
 
             for (string vector_element : vector){
                 access_num++;
@@ -208,7 +209,7 @@ void show(HashTable table){
     Entry* entries = table.entries;
 
     for (int i = 0; i < table.m; i++){
-        vector<string> values = entries[i].aux;
+        list<string> values = entries[i].aux;
 
         cout << "| " << entries[i].value << ";";
         for (string name : values){

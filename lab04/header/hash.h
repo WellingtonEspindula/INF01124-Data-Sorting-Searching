@@ -5,7 +5,7 @@ enum HASH_COLLISION_TREATMENT { CHAINING, EABQ };
 
 typedef struct Entry {
     string value;
-    vector<string> aux;     // In the chaining mode, we can have a list of strings
+    list<string> aux;     // In the chaining mode, we can have a list of strings
     bool occupied = false;
 };
 

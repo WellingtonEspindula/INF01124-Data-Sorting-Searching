@@ -9,8 +9,11 @@
 #include <fstream>
 #include <stack>
 #include <vector>
-
+#include <iomanip>
+#include <list>
+#include <map> 
 #endif
+
 
 #ifndef UTILS
 #define UTILS
