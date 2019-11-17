@@ -41,7 +41,7 @@ int horner_hash(HashTable table, string s){
 int fibonacci_hash(HashTable table, string s){
     int hash = 0;
     for (int i = 0; i < s.length(); i++){
-        hash = ((fibonacci_sequence(i+4) * hash + s.at(i)) % table.m);
+        hash = ((fibonacci_sequence(i+8) * s.at(i) + hash) % table.m);
     }
 
     return hash;
