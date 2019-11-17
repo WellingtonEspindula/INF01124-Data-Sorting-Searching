@@ -129,3 +129,9 @@ double benchmark(void(*f_sort)(string[] , int), string input[], int N , char* na
 
     return time;
 }
+
+int fibonacci_sequence(int n) { 
+    if (n <= 1) 
+        return n; 
+    return fibonacci_sequence(n-1) + fibonacci_sequence(n-2); 
+} 

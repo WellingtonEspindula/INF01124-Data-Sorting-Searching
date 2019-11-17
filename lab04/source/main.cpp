@@ -26,7 +26,8 @@
 #include "../header/hash.h"
 #endif
 
-#define M 2000
+#define M_CHAINING 2477
+#define M_EABQ 20123
 
 using namespace std;
 
@@ -39,13 +40,19 @@ void writeStats(string fileName, vector<string> strings, double time);
 
 
 int main(int argc, char ** argv){
-    HashTable table1 = create(M, HORNER, CHAINING);
+    HashTable table1 = create(M_EABQ, FIBONACCI, EABQ);
+    
     // reading name files
     vector<string> names = readFileToStringVector(argv[1]);
     for (string name : names){
         insert(&table1, name);
     }
-    show(table1);
+    // show(table1);
+
+    vector<string> search_names = readFileToStringVector(argv[2]);
+    for (string name : search_names){
+        cout << "1. " << name << ": " << search(table1, name) << endl;
+    }
     // show_list(&names[0], names.size());
 
 

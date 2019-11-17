@@ -37,3 +37,5 @@ double benchmark(void(*f_sort)(string[] , int ), string input[], int N , char* n
 void show_list(string list[], int size);
 
 void show_list(string list[], int l, int h);
+
+int fibonacci_sequence(int n);

@@ -1,13 +1,12 @@
 using namespace std;
 
-enum HASH_FUNCTION_TYPE { HORNER, POLYNOMIAL };
+enum HASH_FUNCTION_TYPE { HORNER, FIBONACCI };
 enum HASH_COLLISION_TREATMENT { CHAINING, EABQ };
 
 typedef struct Entry {
     string value;
     vector<string> aux;     // In the chaining mode, we can have a list of strings
-    bool used;
-    bool occupied;
+    bool occupied = false;
 };
 
 typedef struct HashTable {
@@ -21,13 +20,13 @@ typedef struct HashTable {
 
 HashTable create(int m, HASH_FUNCTION_TYPE function_type, HASH_COLLISION_TREATMENT collision_tratment);
 
-void insert(HashTable* table, string element);
+bool insert(HashTable* table, string element);
 
 int search(HashTable table, string element);
 
-void remove(HashTable* table, string element);
+bool remove(HashTable* table, string element);
 
-long occupation_rate(HashTable table);
+float occupation_rate(HashTable table);
 
 int string_hash(string s);
 
