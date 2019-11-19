@@ -1,3 +1,15 @@
+/*
+LAB 04: Tabelas Hash
+
+AUTORES: Rafael Trevisan (rafael.trevisan@inf.ufrgs.br) e Wellington Espindula (wmespindula@inf.ufrgs.br)
+
+DESCRIÇÃO: A atividade desenvolvida baseia-se na implementação de tabelas hash para armazenar
+nomes em uma lista de contatos. Para essa atividade foram implementadas duas funções de hash
+distintas e também dois métodos de resolução de conflitos. Foi implementada, também, uma função
+de pesquisa para encontrar nomes nessa tabela ,que retorna “-1” ao não encontrar o nome ou um
+número “N” > 0, que corresponde ao número de acessos necessário para encontrar o nome na tabela.
+*/
+
 using namespace std;
 
 /**
