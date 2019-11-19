@@ -199,10 +199,6 @@ bool remove(HashTable* table, string element){
     }
 }
 
-float occupancy_rate(HashTable table){
-    int table_size = table.m;
-    return ((float) occupancy(table))/((float) table_size);
-}
 
 int occupancy(HashTable table){
     int occupancy = 0;
@@ -218,9 +214,16 @@ int occupancy(HashTable table){
     return occupancy;
 }
 
+
+float occupancy_rate(HashTable table){
+    int table_size = table.m;
+    return ((float) occupancy(table))/((float) table_size);
+}
+
+
 void show(HashTable table){
     printf("-----------HEADER--------\n");
-    printf("| m = %d, n = %d, occupation = %d, ccount = %d, occuprate = %.3f |\n", table.m, table.n, occupation(table), table.collision_count, occupation_rate(table));
+    printf("| m = %d, n = %d, occupation = %d, ccount = %d, occuprate = %.3f |\n", table.m, table.n, occupancy(table), table.collision_count, occupancy_rate(table));
     printf("-------------------------\n");
 
     

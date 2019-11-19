@@ -37,6 +37,12 @@ void writeStats(string fileName, vector<string> strings, double time);
 
 
 int main(int argc, char ** argv){
+    // Calling the program: 
+    // ./lab04 insertion.txt search.txt
+    // where insertion.txt is any text file to be inserted on the hash table
+    // and search.txt is any text file to be searched on the hash table
+
+    // Need 3 args to start the program
     if (argc < 3){
         printf("Missing arguments.\n Ex.: ./lab4 insert_list.txt search_list.txt\n");
         return EXIT_FAILURE;
@@ -52,42 +58,112 @@ int main(int argc, char ** argv){
     for (string name : names){
         insert(&table1, name);
     }
-    printf("TABLE 1:\n");
-    show_info(table1);
-    printf("\n");
 
     // 1.1.2 - Chaning and Fibonacci
     HashTable table2 = create(M_CHAINING, FIBONACCI, CHAINING);
     for (string name : names){
         insert(&table2, name);
     }
-    printf("TABLE 2:\n");
-    show_info(table2);
-    printf("\n");
 
     // 1.1.3 - Quadratic probing and Horner
     HashTable table3 = create(M_EABQ, HORNER, EABQ);
     for (string name : names){
         insert(&table3, name);
     }
-    printf("TABLE 3:\n");
-    show_info(table3);
-    printf("\n");
 
     // 1.1.4 - Quadratic probing and Fibonacci
     HashTable table4 = create(M_EABQ, FIBONACCI, EABQ);
     for (string name : names){
         insert(&table4, name);
     }
+    
+    // Shows Hash Table's info
+    printf("TABLE 1:\n");
+    show_info(table1);
+    printf("\n");
+    
+    printf("TABLE 2:\n");
+    show_info(table2);
+    printf("\n");
+
+    printf("TABLE 3:\n");
+    show_info(table3);
+    printf("\n");
+
     printf("TABLE 4:\n");
     show_info(table4);
     printf("\n");
 
 
-    // 1.2
+    // 1.3
+    HashTable selected_table = table4;
+
+    vector<string> names_found;
+    vector<string> names_not_found;
+    
+    int access_summary = 0;
+    float access_avg = 0;
+    
+    int minor_access = search(selected_table, search_names.at(0));
+    int major_access = search(selected_table, search_names.at(0));
+    
+    for (string name : search_names){
+        // string name = search_names.at(i);
+        int result = search(selected_table, name);
+        if (result == -1){
+            names_not_found.push_back(name);
+        }
+        else {
+            names_found.push_back(name);
+            access_summary += result;
+
+            if (result < minor_access){
+                minor_access = result;
+            }
+            
+            if (result > major_access){
+                major_access = result;
+            }
+        }
+    }
+    printf("\n");
+    access_avg =  (float) access_summary / (float) names_found.size();
+
+    printf("Names found: ");
+    show_list(&names_found[0], names_found.size());
+    printf("\n");
+
+    printf("Names not found: ");
+    show_list(&names_not_found[0], names_not_found.size());
+    printf("\n");
+    
+    printf("Average access number: %.2f\n", access_avg);
+    printf("\n");
+
+    vector<string> major_access_list;
+    vector<string> minor_access_list;
+    for (string name : search_names){
+        int result = search(selected_table, name);
+        if (result == major_access)
+            major_access_list.push_back(name);
+        if (result == minor_access)
+            minor_access_list.push_back(name);
+    }
+
+    printf("Major access number: %d\n", major_access);
+    printf("Names: ");
+    show_list(&major_access_list[0], major_access_list.size());
+    printf("\n");
+    
+    printf("Minor access number: %d\n", minor_access);
+    printf("Names: \n");
+    show_list(&minor_access_list[0], minor_access_list.size());
+    printf("\n");
+
+    // Test code: Runs for search name showing how many access each name has
     // for (int i = 0; i < search_names.size(); i++){
     //     string name = search_names.at(i);
-    //     cout << i << ". " << name << ": " << search(table2, name) << endl;
+    //     cout << i+1 << ". " << name << ": " << search(selected_table, name) << endl;
     // }
     // show_list(&names[0], names.size());
 
