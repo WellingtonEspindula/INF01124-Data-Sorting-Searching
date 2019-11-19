@@ -18,11 +18,6 @@
 #include "../header/utils.h"
 #endif
 
-#ifndef SORT
-#define SORT
-#include "../header/sort.h"
-#endif
-
 #ifndef HASH
 #define HASH
 #include "../header/hash.h"
@@ -42,235 +37,70 @@ void writeStats(string fileName, vector<string> strings, double time);
 
 
 int main(int argc, char ** argv){
-    HashTable table1 = create(M_CHAINING, FIBONACCI, CHAINING);
-    
-    // reading name files
+    if (argc < 3){
+        printf("Missing arguments.\n Ex.: ./lab4 insert_list.txt search_list.txt\n");
+        return EXIT_FAILURE;
+    }
+
     vector<string> names = readFileToStringVector(argv[1]);
+    vector<string> search_names = readFileToStringVector(argv[2]);
+
+    // 1.1
+    // 1.1.1 - Chaning and Horner
+    HashTable table1 = create(M_CHAINING, HORNER, CHAINING);
+    // reading name files
     for (string name : names){
         insert(&table1, name);
     }
-    show(table1);
+    printf("TABLE 1:\n");
+    show_info(table1);
+    printf("\n");
 
-    // vector<string> search_names = readFileToStringVector(argv[2]);
-    // for (string name : search_names){
-    //     cout << "1. " << name << ": " << search(table1, name) << endl;
+    // 1.1.2 - Chaning and Fibonacci
+    HashTable table2 = create(M_CHAINING, FIBONACCI, CHAINING);
+    for (string name : names){
+        insert(&table2, name);
+    }
+    printf("TABLE 2:\n");
+    show_info(table2);
+    printf("\n");
+
+    // 1.1.3 - Quadratic probing and Horner
+    HashTable table3 = create(M_EABQ, HORNER, EABQ);
+    for (string name : names){
+        insert(&table3, name);
+    }
+    printf("TABLE 3:\n");
+    show_info(table3);
+    printf("\n");
+
+    // 1.1.4 - Quadratic probing and Fibonacci
+    HashTable table4 = create(M_EABQ, FIBONACCI, EABQ);
+    for (string name : names){
+        insert(&table4, name);
+    }
+    printf("TABLE 4:\n");
+    show_info(table4);
+    printf("\n");
+
+
+    // 1.2
+    // for (int i = 0; i < search_names.size(); i++){
+    //     string name = search_names.at(i);
+    //     cout << i << ". " << name << ": " << search(table2, name) << endl;
     // }
     // show_list(&names[0], names.size());
-
-
-// DEPRECATED CODE FROM LAB3
-//     // Init rand
-//     srand(time(0));
-
-
-//     // Get arguments from input
-//     if (argc < 3){
-//         printf("Missing parameters\n");
-//         return EXIT_FAILURE;
-//     }
-
-//     // Parameters from the input
-//     bool isFileSort = false;
-//     SORT_TYPE sort_type = HYBRID;
-//     int sequence_length;
-
-//     // it will be used only if entry is from a file
-//     vector<vector<int>> lists = vector<vector<int>>();
-
-//     int program_number = 0;
-
-//     // verifies if has a flag'
-//     if (argv[1][0] == '-'){
-
-//         // checks if the selected program is 1 or 2
-//         program_number = argv[1][1] - '0';
-//         if ((program_number != 1) && (program_number != 2)){
-//             printf("Wrong parameters\n");
-//             return EXIT_FAILURE;
-//         }
-//     } else {
-//         printf("Missing parameters\n");
-//         return EXIT_FAILURE;
-//     }
-
-//     if (program_number == 1){
-//         // verifies if has a flag
-//         if (argv[2][0] == '-'){
-//             string flag = argv[2];
-
-//             // verifies the flag f that means it will sort a file
-//             isFileSort = (flag.find("f") != string::npos);
-            
-//             // Verifies if has the sort_type flags 
-//             if (flag.find("i") != string::npos){
-//                 sort_type = INSERTION;
-//             } else if (flag.find("m") != string::npos){
-//                 sort_type = MERGE;
-//             } else if (flag.find("h") != string::npos){
-//                 sort_type = HYBRID;
-//             }
-
-//             if (isFileSort){
-//                 lists = readFileToVectors(argv[3]);
-//             } else {
-//                 sequence_length = atoi(argv[3]);
-//             }
-            
-//             // If has a flag and the sort_type is HYBRID, 
-//             // the LEAF_SIZE has to be the 3º argument
-//             if (sort_type == HYBRID){
-//                 if (argc < 5){
-//                     printf("Missing parameters\n");
-//                     return EXIT_FAILURE;
-//                 } else {
-//                     LEAF_SIZE = atoi(argv[4]);
-//                 }
-//             }
-
-//         // If hasn't a flag, use default value for sort_type
-//         } else {
-//             sequence_length = atoi(argv[1]);
-//             LEAF_SIZE = atoi(argv[2]);
-//         }
-
-//         if (isFileSort){
-//             vector<vector<int>> ordered_lists = vector<vector<int>>();
-//             for (int i = 0; i < lists.size(); i++){
-//                 vector<int> vector = lists.at(i);
-//                 switch (sort_type){
-//                     case INSERTION:
-//                         benchmark(insertion_sort, &vector[0], vector.size(), "InsertionSort");
-//                         break;
-//                     case MERGE:
-//                         benchmark(merge_sort, &vector[0], vector.size(), "MergeSort");
-//                         break;
-//                     case HYBRID:
-//                         benchmark(hybrid_sort, &vector[0], vector.size(), "HybridSort");
-//                         break;
-//                     default:
-//                         printf("A problem ocurred in sort type selction\n");
-//                         break;
-//                 }
-//                 ordered_lists.push_back(vector);
-//             }
-//             writeList("saida.txt", ordered_lists);
-
-//         } else {
-//             int vector[sequence_length];
-//             random_list(vector, sequence_length);
-
-//             switch (sort_type){
-//                 case INSERTION:
-//                     benchmark(insertion_sort, vector, sequence_length, "InsertionSort");
-//                     break;
-//                 case MERGE:
-//                     benchmark(merge_sort, vector, sequence_length, "MergeSort");
-//                     break;
-//                 case HYBRID:
-//                     benchmark(hybrid_sort, vector, sequence_length, "HybridSort");
-//                     break;
-//                 default:
-//                     printf("A problem ocurred in sort type selction\n");
-//                     break;
-//             }
-//         }
-//     } else if (program_number == 2){
-//         if (argc < 3){
-//             printf("Missing parameters\n");
-//             return EXIT_FAILURE;
-//         } else {
-//             string filename = argv[2];
-
-//             // generate output name
-//             int position_of_point = filename.find('.');
-//             string outputname = filename.substr(0, filename.find('.'));
-//             outputname.append("_ordered.txt");
-//             string outputstats = filename.substr(0, filename.find('.'));
-//             outputstats.append("_stats.txt");
-
-//             vector<string> strings = readFileToStringVector(filename);
-            
-// /*             map<string, int> ocurrences = map<string, int>();
-//             for (string element: strings){
-//                 if (ocurrences.find(element) == ocurrences.end()){
-//                     ocurrences.insert({element, 0});
-//                 } else {
-//                     ocurrences.({element, 0});
-//                 }
-//             } */
-
-//             double time = benchmark(radix_sort, &strings[0], strings.size(), "radix_sort");
-//             if (time > 0){
-//                 writeList(outputname, strings);
-//                 writeStats(outputstats, strings, time);
-//             }
-//         }
-//     }
-
-
-//         // TEST LIMITS
-// /*     for (int i = 1; i <= 100; i++){
-//         vector<int> list = vector<int>();
-
-//         for (int j = (i-1); j >= 0; j--){
-//             list.push_back(j);
-//         }
-
-//         // show_list(&list[0], list.size());
-//         clock_t start = clock();
-//         merge_sort(&list[0], list.size());
-//         clock_t end = clock();
-
-//         double time = (end - start)/(double)CLOCKS_PER_SEC;
-//         printf("%d;%d;%f\n", i+1, list.size(), time);
-//     } */
 
     return 0;
 }
 
-vector<vector<int>> readFileToVectors(string fileName){
-    vector<vector<int>> vectors = vector<vector<int>>();
-
-    ifstream file (fileName);
-    if (file.is_open()){
-        string nlists;
-        getline (file, nlists);
-
-        int numberOfLists = stoi(nlists);
-
-        for (int i = 0; i < numberOfLists; i++){
-            string nNum;
-            getline(file, nNum, ' ');
-            int numberOfNumers = stoi(nNum);
-
-            if (numberOfNumers !=  0){
-                vector<int> list = vector<int>();
-
-                string str_number;
-                for (int j = 0; j < numberOfNumers - 1; j++){
-                    getline(file, str_number, ' ');
-                    int number = stoi(str_number);
-                    list.push_back(number);
-                }
-                getline(file, str_number, '\n');
-                int number = stoi(str_number);
-                list.push_back(number);
-
-                vectors.push_back(list);
-            }
-        }
-        file.close();
-    }
-    return vectors;
-} 
 
 vector<string> readFileToStringVector(string fileName){
     vector<string> string_vector = vector<string>();
 
     ifstream file (fileName);
     if (file.is_open()){
-        string word, word2;
-        string whole_word;
+        string word;
 
         while(!file.eof()) { 
             getline(file, word);

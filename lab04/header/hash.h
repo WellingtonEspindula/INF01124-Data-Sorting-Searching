@@ -6,7 +6,7 @@ using namespace std;
 enum HASH_FUNCTION_TYPE { HORNER, FIBONACCI };
 
 /**
- * \brief Enum that identifies the threatment politics
+ * \brief Enum that identifies the treatment politics
  * */
 enum HASH_COLLISION_TREATMENT { CHAINING, EABQ };
 
@@ -27,7 +27,7 @@ typedef struct HashTable {
     int n;                  // Elements count
     int collision_count;    // Numbers of collisions 
     HASH_FUNCTION_TYPE function_type;
-    HASH_COLLISION_TREATMENT collision_tratment;
+    HASH_COLLISION_TREATMENT collision_treatment;
     Entry* entries;
 };
 
@@ -35,7 +35,7 @@ typedef struct HashTable {
  * \brief Create a new hash table
  * \param m - HashTable's size
  * \param function_type - Hash function that will be used on strings on the HashTable
- * \param collision_tratment - HashTable's collision threatment policy
+ * \param collision_tratment - HashTable's collision treatment policy
  * \return Return the new HashTable
  * */
 HashTable create(int m, HASH_FUNCTION_TYPE function_type, HASH_COLLISION_TREATMENT collision_tratment);
@@ -70,7 +70,7 @@ bool remove(HashTable* table, string element);
  * \param table - HashTable to be analyesed
  * \return Returns a number between 0 and 1 that says how much occupied is the HashTable
  * */
-float occupation_rate(HashTable table);
+float occupancy_rate(HashTable table);
 
 /**
  * \brief Calculate the respective hash code to a string given its HashTable
@@ -85,3 +85,9 @@ int string_hash(HashTable table, string s);
  * \param table - HashTable to be showed
  * */
 void show(HashTable table);
+
+/**
+ * \brief Show a table's properties
+ * \param table - HashTable to be showed
+ * */
+void show_info(HashTable table);

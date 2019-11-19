@@ -1,0 +1,44 @@
+TABLE 1:
+-------------------------
+Hash function type: Horner
+Table collision threatment: Chaining
+Table size: 2477
+Elements count: 10000
+Collision count: 7566
+Occupancy: 2434
+Occupancy rate: 0.983
+-------------------------
+
+TABLE 2:
+-------------------------
+Hash function type: Fibonacci
+Table collision threatment: Chaining
+Table size: 2477
+Elements count: 10000
+Collision count: 7568
+Occupancy: 2432
+Occupancy rate: 0.982
+-------------------------
+
+TABLE 3:
+-------------------------
+Hash function type: Horner
+Table collision threatment: Quadratic probing
+Table size: 20123
+Elements count: 10000
+Collision count: 4247
+Occupancy: 10000
+Occupancy rate: 0.497
+-------------------------
+
+TABLE 4:
+-------------------------
+Hash function type: Fibonacci
+Table collision threatment: Quadratic probing
+Table size: 20123
+Elements count: 10000
+Collision count: 4055
+Occupancy: 10000
+Occupancy rate: 0.497
+-------------------------
+
