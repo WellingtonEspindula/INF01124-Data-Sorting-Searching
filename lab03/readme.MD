@@ -1,7 +1,7 @@
 # Laboratório 3
 
 ## 1. Hybrid Sort
-Although the **Merge Sort** algorithm runs on time θ(n lg n) in the worst case and the **Insertion Sort** runs on θ(n²) in the worst case, in reallity the constants involved can make Insertion Sort faster than Merge Sort to smaller problems. Hence, the **Hybrid Sort** is a implementation of **Top Down Merge Sort** that applyes Insertion Sort to sort some sublists with *k* length.
+Although the **Merge Sort** algorithm runs on time θ(n lg n) in the worst case and the **Insertion Sort** runs on θ(n²) in the worst case, in real cases scenarios the constants involved can make Insertion Sort faster than Merge Sort to smaller problems. Hence, the **Hybrid Sort** is a implementation of **Top Down Merge Sort** that applyes Insertion Sort to sort some sublists with *k* length.
 
 ### Usage:
 * **Compile**:
