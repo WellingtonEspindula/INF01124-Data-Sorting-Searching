@@ -13,11 +13,9 @@ make all
 ```bash
 ./lab3 [-f file] [-i size] [-m size] [-h size chunkSize]
 ```
--i means insertion sort
-
--m means merge sort
-
--h means hybrid sort
+**-i**: insertion sort <br>
+**-m**: merge sort <br>
+**-h**: hybrid sort
 
 Examples:
 ```bash
