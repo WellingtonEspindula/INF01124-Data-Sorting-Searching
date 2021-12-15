@@ -1,7 +1,7 @@
 # Laboratório 3
 
 ## 1. Hybrid Sort
-Although the **Merge Sort** algorithm runs on time θ(n lg n) in the worst case and the **Insertion Sort** runs on θ(n²) in the worst case, in real cases scenarios the constants involved can make Insertion Sort faster than Merge Sort to smaller problems. Hence, the **Hybrid Sort** is a implementation of **Top Down Merge Sort** that applyes Insertion Sort to sort some sublists with *k* length.
+Even though the **Merge Sort** algorithm runs has a time complpexity of θ(n lg n) in the worst case scenario and the **Insertion Sort** has θ(n²), in real cases scenarios the Insertion Sort can be faster than Merge Sort to smaller chunks. Hence, the **Hybrid Sort** is an implementation of **Top Down Merge Sort** which applyes Insertion Sort to sort some sublists with *k* length.
 
 ### Usage:
 * **Compile**:
@@ -11,7 +11,10 @@ make all
 ```
 * **How to run:** 
 ```bash
-./lab3 -[f/i/m/g] 
+./lab3 [-f file] [-i size] [-m size] [-h size chunkSize]
+-i means insertion sort
+-m means merge sort
+-h means hybrid sort
 ```
 Examples:
 ```bash
