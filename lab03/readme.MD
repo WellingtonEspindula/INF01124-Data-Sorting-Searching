@@ -12,10 +12,11 @@ make all
 * **How to run:** 
 ```bash
 ./lab3 [-f file] [-i size] [-m size] [-h size chunkSize]
+```
 -i means insertion sort
 -m means merge sort
 -h means hybrid sort
-```
+
 Examples:
 ```bash
 ./lab3 -i 100
